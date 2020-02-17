@@ -212,3 +212,7 @@ echo ""
 git hub  - 
 https://github.com/apnex/nsx
 https://github.com/apnex/hacking
+
+
+SSH key gen- 
+ ssh-keygen -f ~/.ssh/id_rsa -N '' 
