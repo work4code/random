@@ -1,0 +1,19 @@
+https://www.techrepublic.com/blog/linux-and-open-source/convert-cvs-repositories-to-git/ 
+
+
+You must have the cvs-git plugin installed; on Fedora this can be done by installing the git-cvs package: yum install git-cvs cvsps (the cvsps utility is required to create the CVS patchsets). Once this is done, you can point Git to a CVS repository:
+
+$ git cvsimport -v -d :pserver:anonymous@cvs.sv.gnu.org:/sources/classpath classpath
+
+
+$ git diff [new_revision] [old_revision]
+
+
+
+http://clusterfrak.com/devops/git/git_cvs2git/     
+
+
+
+https://github.com/ehsan/convert_cvs_to_git/blob/master/convert.sh    
+
+https://docs.gitlab.com/ee/user/project/import/cvs.html
