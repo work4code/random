@@ -17,3 +17,75 @@ http://clusterfrak.com/devops/git/git_cvs2git/
 https://github.com/ehsan/convert_cvs_to_git/blob/master/convert.sh    
 
 https://docs.gitlab.com/ee/user/project/import/cvs.html
+
+
+
+
+
+ 
+ 
+ Rsync: your cvs repo:  
+  1. $rsync -av  CVSUserName@CVSipAdrress:/CVS_Path/ProjectName/*  ~/anyDir/ProjectName
+ 
+ 
+  2. cd $../cvs2svn-x.x.0 && ./cvs2git --options=cvs2git-example.options
+ 
+  3. $./cvs2git --blobfile=cvs2git-tmp/git-blob.dat \
+           --dumpfile=cvs2git-tmp/git-dump.dat \
+           --username=CVS_YOUR_USER_NAME \
+           /path_of_step(1)/cvsProject 
+ 
+  Note: if get any encoding error then add this into above command:"--encoding=ascii --encoding=utf8 --encoding=utf16 --encoding=latin" 
+ 
+  4. mkdir newGitRepo && cd newGitRepo 
+  5. git init --bare
+  6. git fast-import --export-marks=/x.x.x/cvs2svn-2.5.0/cvs2git-tmp/git-marks.dat \
+   
+ 
+ wow now you are done, now you can push your repo to git..
+ 
+ Referenece : [link1][2] ,[link2][2]
+ 
+
+
+rsync -av rsync://PROJECT.cvs.sourceforge.net/cvsroot/PROJECT/\* cvs
+
+python cvs2git --blobfile="blob.dat" --dumpfile="dump.dat" --username="username_to_access_repo" --options=cvs2git.options --fallback-encoding utf-8 cvs
+
+
+mkdir gitexport/
+cd gitexport
+git init
+
+cat ../{blob,dump}.dat | git fast-import
+
+git reset --hard
+
+git push -u origin master
+
+of course you need before to git remote add origin https://your_repo_url
+
+
+
+
+
+In order to clone a project from sourceforge to github I performed the following steps.
+
+PROJECT=some_sourceforge_project_name
+GITUSER=rubo77
+rsync -av rsync://a.cvs.sourceforge.net/cvsroot/$PROJECT/\* cvs
+svn export --username=guest http://cvs2svn.tigris.org/svn/cvs2svn/trunk cvs2svn-trunk
+cp ./cvs2svn-trunk/cvs2git-example.options ./cvs2git.options
+vim cvs2git.options # edit run_options.set_project
+cvs2svn-trunk/cvs2git --options=cvs2git.options --fallback-encoding utf-8
+
+create an empty git at https://github.com/$GITUSER/$PROJECT.git
+
+git clone git@github.com:$GITUSER/$PROJECT.git $PROJECT-github
+cd $PROJECT-github
+cat ../cvs2git-tmp/git-{blob,dump}.dat | git fast-import
+git log
+git reset --hard
+git push
+
+
