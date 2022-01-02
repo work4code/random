@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+
+system("cp /etc/resolv.conf /etc/resolv.conf.\`date +%d%m%y\`");
+if ($? == 0)
+{
+        system("echo \"domain  farmersinsurance.com\" > /etc/resolv.conf");
+        if ($? == 0)
+        {
+                system("echo \"search  farmersinsurance.com amer.zurich.corp amer.zurich.dev amer.zurich.test mega.us.zurich.com foremost.com foremoststar.com sch.zus.us.zurich.com bal.zus.us.zurich.com bristolwest.com\" >> /etc/resolv.conf");
+                if ($? == 0)
+                {
+                        system("echo \"nameserver 10.132.2.25\" >> /etc/resolv.conf");
+                        if ($? == 0)
+                        {
+                                system("echo \"nameserver 10.132.2.25\" >> /etc/resolv.conf");
+                                if ($? == 0)
+                                {
+                                        system("echo \"Successfully Updated resolv.conf file\" > /tmp/output_resolv_conf_update");
+                                }
+                                else
+                                {
+                                        system("echo \"Failed to Updated resolv.conf file\" > /tmp/output_resolv_conf_update");
+                                }
+                        }
+                        else
+                        {
+                                system("echo \"Failed to update nameserver 10.132.2.25 Update resolv.conf file\" > /tmp/output_resolv_conf_update");
+                        }
+                }
+                else
+                {
+                        system("echo \"Failed to Update Search entry in resolv.conf file\" > /tmp/output_resolv_conf_update");
+                }
+        }
+        else
+        {
+                system("echo \"Failed to Update Domain entry in resolv.conf file\" > /tmp/output_resolv_conf_update");
+        }
+}
+else
+{
+        system("echo \"Failed to take backup of resolv.conf file\" > /tmp/output_resolv_conf_update");
+}
