@@ -1,0 +1,47 @@
+<# 
+.SYNOPSIS 
+Creates a shared Mailbox and grants a security group permission to use it 
+.PARAMETER Name 
+This is the display name of the mailbox, such as "Sales Department" 
+.PARAMETER MailboxAlias 
+This is the email address before the @company.com, such as "sales" 
+.PARAMETER GrantPermissionToGroup 
+The security group that will have access to the box, such as "MarketingSG" 
+#> 
+
+param($Name, $gidNumber, $uidNumber) 
+
+param($MailboxName, $MailboxAlias, $GrantPermissionToGroup) 
+
+New-Mailbox -Shared -Name $MailboxName -DisplayName $MailboxName -Alias $MailboxAlias ` 
+| Set-Mailbox -GrantSendOnBehalfTo $GrantPermissionToUser ` 
+| Add-MailboxPermission -User $GrantPermissionToUser -AccessRights FullAccess -InheritanceType All 
+
+
+
+New-Mailbox -Shared -Name $($env:MailboxName) -DisplayName $($env:MailboxName) -Alias $($env:MailboxAlias) ` 
+  | Set-Mailbox -GrantSendOnBehalfTo $($env:GrantPermissionToUser) ` 
+  | Add-MailboxPermission -User $($env:GrantPermissionToUser) -AccessRights FullAccess -InheritanceType All 
+
+
+
+
+param($Name, $gidNumber, $uidNumber) 
+
+get-aduser cxh635 –Properties:* 
+
+param($Name, $gidNumber, $uidNumber) 
+
+Set-ADUser -identity $($env:Name}  -add @ {{$env:gidNumber} ; {$env:uidNumber} ; mssfu30nisdomain="sw" ; loginShell="/bin/bash" ; mssfu30name="$($env:Name}" ; unixhomedirectory="/home/$($env:Name}" }
+
+
+
+
+
+For resetting Jenkins Access control authorization
+
+[vagrant@lab ~]$ sudo ex +g/useSecurity/d +g/authorizationStrategy/d -scwq /var/lib/jenkins/config.xml
+[vagrant@lab ~]$ sudo /etc/init.d/jenkins restart
+Restarting jenkins (via systemctl):                        [  OK  ]
+[vagrant@lab ~]$
+
