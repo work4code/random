@@ -1,0 +1,103 @@
+[?7/?30/?2018 1:05 PM] Reddy, Prasanth: 
+Hi Dipin
+[?7/?30/?2018 1:10 PM] Reddy, Prasanth: 
+No Title
+Verify Ping and tracert to tenant server from jump box
+RDP access to tenant server with domain credential
+RDP Access to Tenant server with local admin credential
+Verify whether Windows activated
+If not windows not activated, verify whether server able to communicate and required ports are enabled for windows activation
+Verify DNS resolution to domain and other servers from tenant servers
+Verify no major or critical errors in event logs
+Verify all automatic services are in running state
+De-join and join back the tenant server to domain
+Verify group policies are being applied properly by running rsop.msc
+Verify the disk space and page file configuration
+Ping and tracert servers in WW side
+verify and list of softwares installed by default
+Verify whether servers are placed in right OU after build
+Verify local admin renamed and Guest account is disabled as standard server hardening process
+ 
+Preparation and Installation
+If machine is a new install, protect it from hostile network traffic, until the operating system is installed and hardened.
+Consider using the Security Configuration Wizard to assist in hardening the host.
+Service Packs and Hotfixes
+Install the latest service packs and hotfixes from Microsoft.
+Enable automatic notification of patch availability.
+User Account Policies
+Set minimum password length.
+Enable password complexity requirements.
+Do not store passwords using reversible encryption. (Default)
+Configure account lockout policy.
+User Rights Assignment
+Restrict the ability to access this computer from the network to Administrators and Authenticated Users.
+Do not grant any users the 'act as part of the operating system' right. (Default)
+Restrict local logon access to Administrators.
+Deny guest accounts the ability to logon as a service, a batch job, locally, or via RDP.
+Security Settings
+Place the University warning banner in the Message Text for users attempting to log on.
+Disallow users from creating and logging in with Microsoft accounts.
+Disable the guest account. (Default)
+Require Ctrl+Alt+Del for interactive logins. (Default)
+Configure machine inactivity limit to protect idle interactive sessions.
+Configure Microsoft Network Client to always digitally sign communications.
+Configure Microsoft Network Client to digitally sign communications if server agrees. (Default)
+Disable the sending of unencrypted passwords to third party SMB servers.
+Configure Microsoft Network Server to always digitally sign communications.
+Configure Microsoft Network Server to digitally sign communications if client agrees.
+Network Access Controls
+Disable anonymous SID/Name translation. (Default)
+Do not allow anonymous enumeration of SAM accounts. (Default)
+Do not allow anonymous enumeration of SAM accounts and shares.
+Do not allow Everyone permissions to apply to anonymous users. (Default)
+Do not allow any named pipes to be accessed anonymously.
+Restrict anonymous access to named pipes and shares. (Default)
+Do not allow any shares to be accessed anonymously.
+Require the "Classic" sharing and security model for local accounts. (Default)
+Network Security Settings
+Allow Local System to use computer identity for NTLM.
+Disable Local System NULL session fallback.
+Configure allowable encryption types for Kerberos.
+Do not store LAN Manager hash values.
+Set LAN Manager authentication level to only allow NTLMv2 and refuse LM and NTLM.
+Enable the Windows Firewall in all profiles (domain, private, public). (Default)
+Configure the Windows Firewall in all profiles to block inbound traffic by default. (Default)
+Active Directory Domain Member Security Settings
+Digitally encrypt or sign secure channel data (always). (Default)
+Digitally encrypt secure channel data (when possible). (Default)
+Digitally sign secure channel data (when possible). (Default)
+Require strong (Windows 2000 or later) session keys.
+Configure the number of previous logons to cache.
+Audit Policy Settings
+Configure Account Logon audit policy.
+Configure Account Management audit policy.
+Configure Logon/Logoff audit policy.
+Configure Policy Change audit policy.
+Configure Privilege Use audit policy.
+Event Log Settings
+Configure Event Log retention method and size.
+Configure log shipping (e.g. to Splunk).
+Additional Security Protection
+Disable or uninstall unused services.
+Disable or delete unused users.
+Configure User Rights to be as secure as possible.
+Ensure all volumes are using the NTFS file system.
+Configure file system permissions.
+Configure registry permissions.
+Disallow remote registry access if not required.
+Additional Steps
+Set the system date/time and configure it to synchronize against campus time servers.
+Install and enable anti-virus software.
+Install and enable anti-spyware software.
+Configure anti-virus software to update daily.
+Configure anti-spyware software to update daily.
+Provide secure storage for Category-I data as required by confidentiality, integrity, and availability needs. Security can be provided by means such as, but not limited to, encryption, access controls, filesystem audits, physically securing the storage media, or any combination thereof as deemed appropriate.
+Install software to check the integrity of critical operating system files.
+If RDP is utilized, set RDP connection encryption level to high.
+Physical Security
+Set a BIOS/firmware password to prevent alterations in system start up settings.
+Disable automatic administrative logon to recovery console.
+Do not allow the system to be shut down without having to log on. (Default)
+Configure the device boot order to prevent unauthorized booting from alternate media.
+Configure a screen-saver to lock the console's screen automatically if the host is left unattended.
+ 
