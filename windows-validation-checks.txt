@@ -1,7 +1,4 @@
-[?7/?30/?2018 1:05 PM] Reddy, Prasanth: 
-Hi Dipin
-[?7/?30/?2018 1:10 PM] Reddy, Prasanth: 
-No Title
+
 Verify Ping and tracert to tenant server from jump box
 RDP access to tenant server with domain credential
 RDP Access to Tenant server with local admin credential
