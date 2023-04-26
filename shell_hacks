@@ -1,0 +1,185 @@
+#  Version : 1.0
+# #  Description : This Script file contains some shell script quick hacks. 
+
+
+#Check below links to get basics 
+#http://linuxconfig.org/linux-commands 
+#http://www.thegeekstuff.com/2010/11/50-linux-commands/
+#http://www.makeuseof.com/tag/an-a-z-of-linux-40-essential-commands-you-should-know/ 
+ 
+#to check open/closed port on a remote machine
+nc -zw3 172.25.1.76 5432 && echo "opened" || echo "closed"
+ 
+#to check ip of devices connected in local network
+# http://stackoverflow.com/questions/30644314/list-all-devices-on-local-network
+#Method :1
+arp -a | grep 192.168.1. | grep ether
+#Method :2
+for i in `seq 1 254`; do ping -c 1 -q 192.168.1.$i &; done
+
+
+#to check internet connectivity 
+sudo nm-tool | grep "State: connected" | wc -l 
+#'1' means connected and '0' means not connnected 
+ 
+#to check ip address 
+/sbin/ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}' 
+ 
+#to check OS distribution 
+lsb_release -i -s 
+#http://www.cyberciti.biz/faq/find-linux-distribution-name-version-number/ 
+#LSB means (Linux Standard Base) 
+
+#to check OS distribution and version 
+lsb_release -d -s 
+ 
+#to copy to remote machine using scp connecting it without RSA key authorization
+sshpass -p "$password" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $algo_script "$username"@"$ip":./
+ 
+#to pass a variable to remote machine using ssh 
+sshpass -p "$password" ssh -t "$username"@"$ip" 'export MYVAR='"'$toAlgo'"';sh startHumanTracking.sh' 
+
+#to run a script on remote machine using ssh even after disconnection 
+sshpass -p "$password" ssh -x "$username"@"$ip" 'sh startHumanTracking.sh' 
+ 
+#to pass a variable and execute multiple scripts to remote machine using ssh 
+sshpass -p "$password" ssh -t "$username"@"$ip" 'export MYVAR='"'$password'"';
+sh local_script_2.sh;echo "$password" | sudo -S rm -rf local_script_2.sh package;
+echo "$password"|sudo -S sh install_packages_2.sh;echo "$password" | sudo -S rm -rf install_packages_2.sh' 
+ 
+# to split a string based on a delimiter 
+#spliting $first based on delimiter '.' and  storing the 4th part to pi_ip 
+pi_ip=$(echo $first | awk '{split($0,a,"."); print a[4]}') 
+#http://stackoverflow.com/questions/918886/how-do-i-split-a-string-on-a-delimiter-in-bash 
+ 
+#to run installation and output to terminal as well as write to log file 
+sudo apt-get install $some_package  | tee -a writer.log 
+ 
+#to run installation/any command and silent the console messages or warning
+sudo apt-get install $some_package 2>/dev/null
+
+#to check python package $1 with version $2  
+temp=`python -c "import "$1"; print "$1".__version__== '$2'"`  
+    
+#Grep (an acronym for “Global Regular Expression Print”) 
+#to find and replace some string in all the files in a folder 
+ grep -rl "old_string" /home/path/*.files |  xargs sed -i "s/old_string/new_string/g" 
+ 
+#to find some string along with the context 
+ grep -r "some_string" /home/path/folder 
+ 
+#to extract files from ISO image 
+sudo mount -o loop <image>.iso /mnt/iso 
+
+#to show byte information of an ISO and truncate ISO size
+#http://softwarebakery.com/shrinking-images-on-linux
+sudo fdisk -l <image>.iso
+sudo truncate --size=$[(31116287+1)*512] <image>.iso
+#'31116287' is the last filled bit in the disk; check from the results of fdisk
+
+#to check storage devices
+df -h 
+
+#Taking ISO image of SD card 
+sudo dd if=/dev/mmcblk0 of=/home/nitish/Desktop/jasper_complete.iso 
+
+#Burning SD card with ISO files 
+sudo dd if=/home/nitish/Desktop/pi_iso/latest_228.iso of=/dev/mmcblk0 
+
+#Expanding the SD Card 
+ sudo raspi-config
+
+#to extract a running process and kill the process 
+kill -9 $(ps -ef | grep 'processX' | grep -v grep | awk 'NR==1' | awk '{split($0,a," "); print a[2]}') 
+kill -9 `ps aux|grep mjpg_streamer|awk '$17== "HumanTracking.jpg" {print $2}'`
+
+#to extract multiple instances of a running process and kill the processes
+while [ $(ps -ef | grep 'redis-server' | grep -v grep | wc -l) -ge 1 ]
+ do
+    echo $password | sudo -S  kill -9 $(ps -ef | grep 'redis-server' | grep -v grep | awk 'NR==1' |  awk '{split($0,a," "); print a[2]}')
+ done
+
+#to read from a file line by line separated by Internal Field Separator ':' 
+while IFS=: read -r f1 f2 
+do 
+echo f1 + f2 
+done < $config_file  
+
+#to launch GUI firefox from remote machine
+sshpass -p "$password" ssh -X "$username"@"$ip" 'export DISPLAY=":0";firefox "www.google.com"'
+
+#to empty a file without deleting the file
+cat /dev/null > temp.txt
+
+
+sed -i '1icolumn1, column2, column3' testfile.csv
+#The "1i" command tells sed to go to line 1 and insert the text there.
+#The -i option causes the file to be edited "in place" 
+#and can also take an optional argument to create a backup file, for example
+
+sed -i~ '1icolumn1, column2, column3' testfile.csv
+#would keep the original file in "testfile.csv~".
+
+#http://unix.stackexchange.com/questions/40786/how-to-do-integer-float-calculations-in-bash-or-other-languages-frameworks
+
+#If you want to delete lines 5 through 10 and 12:
+sed -e '5,10d;12d' file
+#This will print the results to the screen. If you want to save the results to the same file:
+sed -i.bak -e '5,10d;12d' file
+#This will back the file up to file, and delete the given lines.
+
+sed -n '4p' file
+#it will return the text at line number 4
+
+#to kill an open port, say 3000
+sudo kill -9 $(sudo lsof -t -i:3000)
+
+
+#to set up a cron job
+#http://www.makeuseof.com/tag/5-beginner-linux-setup-ideas-cron-jobs-shell-scripts/
+
+#to check all the installed packages
+dpkg -l 
+
+
+#to find number of characters in a variable
+x="This is a test. S"
+grep -o "[s|S]" <<<"$x" | wc -l
+#output : 4
+
+
+#to split and combine a big size file
+#Lets says I have an image and its too big (10MB). All I do is:
+split --bytes=1M /path/to/image/image.jpg /path/to/image/prefixForNewImagePieces
+#and then to put it together I use cat:
+cat prefixFiles* > newimage.jpg
+
+
+#Arithmetic in bash is done with $ and double parentheses:
+echo "$(($num1+$num2))"
+#Or $ and square brackets:
+echo "$[$num1+$num2]"
+#You can assign from that (sans echo). There is also expr:
+echo `expr "$num1" + "$num2"`
+
+#scale=4 tells bc to use four decimal places
+echo 'scale=4;3.1415+9.99' | bc
+
+#https://www.digitalocean.com/community/tutorials/how-to-use-find-and-locate-to-search-for-files-on-a-linux-vps
+#Using the find command to recursively delete temp files
+find -name *~ -exec rm -rf {} \;
+
+
+#to check video length
+for i in $(pwd)/*; do echo $i; ffmpeg -i $i 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//; done
+
+
+#to check for images files from terminal and do some ops
+for i in "$(pwd)"/*.jpg; do grep -n $(basename $i) ../training-labels | cut -d ':' -f 2| tee -a tagging.log; done;
+
+#to resize image
+find training-images/ -name "*.jpg" -exec convert {} -resize 128x128! {} \;
+
+#one liner script for a scheduler
+ while true; do mintime=$(date +"%M"); secondtime=$(date +"%S");if [ "$mintime" -eq "48" ] && [ "$secondtime" -eq "50" ];then echo $(date); break; else echo "hi"; fi; done;
+ 
